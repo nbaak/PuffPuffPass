@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  flask-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flask-tower
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./src:/app
