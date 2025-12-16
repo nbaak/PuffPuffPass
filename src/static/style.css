@@ -17,16 +17,18 @@ body {
 
 #container {
     flex: 1;
-    display: flex;
+    display: inline-flex;
     align-items: center; /* center stack */
-    justify-content: center; /* center horizontally */
+    /*justify-content: center; /* center horizontally */
     gap: 10px;
     padding: 20px;
-    overflow: auto;
+    /* overflow: auto; /* overflows into nothing.. */
 }
 
 #container.vertical {
     flex-direction: column-reverse;
+    top: 50%;
+    position: relative;
 }
 
 #container.horizontal {
@@ -78,3 +80,25 @@ body {
         transform: translateY(0);
     }
 }
+
+/* Horizontal line */
+  .horizontal-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+    transform: translateY(-50%);
+  }
+
+  /* Vertical line */
+  .vertical-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: black;
+    transform: translateX(-50%);
+  }
