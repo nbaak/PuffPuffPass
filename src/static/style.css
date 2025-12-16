@@ -5,17 +5,19 @@ body {
 }
 
 #container {
-    position: relative;
-    width: 100vw;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 20px;
     height: 100vh;
+    overflow-y: auto;
 }
 
 .block {
-    position: absolute;
     width: 40px;
     height: 40px;
-    left: -50px;
-    animation: slide-in 0.5s ease-out forwards;
+    animation: slide-in 0.4s ease-out;
 }
 
 .block.paff {
@@ -28,9 +30,9 @@ body {
 
 @keyframes slide-in {
     from {
-        left: -50px;
+        transform: translateX(-60px);
     }
     to {
-        left: 20px;
+        transform: translateX(0);
     }
 }

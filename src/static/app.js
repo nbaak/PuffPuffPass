@@ -1,5 +1,4 @@
 let lastTimestamp = null;
-let offsetY = 20;
 
 function addBlock(action) {
     const block = document.createElement("div");
@@ -9,13 +8,6 @@ function addBlock(action) {
         block.classList.add("paff");
     } else {
         block.classList.add("pass");
-    }
-
-    block.style.top = offsetY + "px";
-    offsetY += 50;
-
-    if (offsetY > window.innerHeight - 50) {
-        offsetY = 20;
     }
 
     document.getElementById("container").appendChild(block);
