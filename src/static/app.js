@@ -12,25 +12,35 @@ function updateBlockBrightness() {
     });
 }
 
-function addBlock(action) {
+function addBlock(action, timestamp) {
     const block = document.createElement("div");
     block.classList.add("block");
 
     if (action === "Paff") block.classList.add("paff");
     else block.classList.add("pass");
 
-    block.dataset.action = action;
+    // Add both action and timestamp to dataset
+    block.dataset.action = `${action} (${timestamp})`;
+
+    // Append normally to keep correct tower order
     container.appendChild(block);
+
+    // Animate falling from above into its position
+    block.style.transform = "translateY(-150px)";
+    block.style.opacity = "0";
+    block.style.transition = "transform 0.6s ease-out, opacity 0.6s ease-out";
+
+    requestAnimationFrame(() => {
+        block.style.transform = "translateY(0)";
+        block.style.opacity = "1";
+    });
 
     updateBlockBrightness();
 
-    // Keep stack centered, scroll if necessary
-    container.scrollTo({
-        top: container.scrollHeight / 2,
-        left: container.scrollWidth / 2,
-        behavior: "smooth"
-    });
+    // Scroll to top to show newest block if needed
+    container.scrollTop = 0;
 }
+
 
 async function poll() {
     const response = await fetch("/last");
@@ -40,7 +50,7 @@ async function poll() {
 
     if (data.timestamp !== lastTimestamp) {
         lastTimestamp = data.timestamp;
-        addBlock(data.action);
+        addBlock(data.action, data.timestamp);
     }
 }
 
@@ -51,6 +61,22 @@ toggleButton.addEventListener("click", () => {
     } else {
         container.classList.remove("horizontal");
         container.classList.add("vertical");
+    }
+
+    if (horizontalline.classList.contains("vertical")) {
+        horizontalline.classList.remove("vertical")
+        horizontalline.classList.add("horizontal")
+    } else {
+        horizontalline.classList.remove("horizontal")
+        horizontalline.classList.add("vertical")
+    }
+
+    if (verticalline.classList.contains("vertical")) {
+        verticalline.classList.remove("vertical")
+        verticalline.classList.add("horizontal")
+    } else {
+        verticalline.classList.remove("horizontal")
+        verticalline.classList.add("vertical")
     }
 });
 
