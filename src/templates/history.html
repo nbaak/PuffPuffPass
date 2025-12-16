@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+    <link rel="stylesheet" href="/static/history.css">
+</head>
+<body>
+    <h1>Log History</h1>
+
+    <ul class="day-list">
+        {% for day in days %}
+            <li>
+                <a href="/history/{{ day }}">{{ day }}</a>
+            </li>
+        {% else %}
+            <li>No logs available</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">Back</a>
+</body>
+</html>

@@ -88,6 +88,23 @@ def start_logger_thread() -> None:
     thread.start()
 
 
+def read_daily_logs(log_date:date) -> List[str]:
+    log_file:Path = get_log_file_path(log_date)
+
+    if not log_file.exists():
+        return []
+
+    with log_file.open("r", encoding="utf-8") as file:
+        return file.read().splitlines()
+
+
+def list_log_days() -> List[str]:
+    return sorted(
+        [p.stem for p in LOG_DIR.glob("*.log")],
+        reverse=True,
+    )
+
+
 @app.route("/", methods=["GET"])
 def index() -> object:
     return render_template("index.html")
@@ -100,6 +117,29 @@ def get_last_log() -> object:
             "timestamp": _last_log_timestamp,
             "action": _last_paff_or_pass,
         }
+    )
+
+
+@app.route("/history", methods=["GET"])
+def history_index() -> object:
+    days:List[str] = list_log_days()
+    return render_template("history.html", days=days)
+
+
+@app.route("/history/<string:log_date>", methods=["GET"])
+def history_day(log_date:str) -> object:
+    try:
+        parsed_date:date = date.fromisoformat(log_date)
+    except ValueError:
+        abort(400, description="Date must be YYYY-MM-DD")
+
+    entries:List[str] = read_daily_logs(parsed_date)
+    entries.reverse()
+
+    return render_template(
+        "history_day.html",
+        log_date=log_date,
+        entries=entries,
     )
 
 
