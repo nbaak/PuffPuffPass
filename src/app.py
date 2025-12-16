@@ -5,7 +5,7 @@ from datetime import datetime, date
 from pathlib import Path
 from typing import Optional, List
 
-from flask import Flask, jsonify, abort, render_template
+from flask import Flask, jsonify, abort, render_template, redirect, url_for
 
 
 LOG_INTERVAL_SECONDS:int = 10
@@ -27,7 +27,7 @@ def get_log_file_path(log_date:date) -> Path:
 
 
 def generate_result() -> str:
-    return random.choice(["Paff", "Paff", "Pass"])
+    return random.choice(["Puff", "Puff", "Pass"])
 
 
 def parse_last_log_line(line:str) -> None:
@@ -110,6 +110,15 @@ def index() -> object:
     return render_template("index.html")
 
 
+@app.route("/info", methods=["GET"])
+def info() -> object:
+    return jsonify(
+        {
+            "log_interval": LOG_INTERVAL_SECONDS,
+        }
+    )
+
+
 @app.route("/last", methods=["GET"])
 def get_last_log() -> object:
     return jsonify(
@@ -124,6 +133,11 @@ def get_last_log() -> object:
 def history_index() -> object:
     days:List[str] = list_log_days()
     return render_template("history.html", days=days)
+
+
+@app.route("/history/", methods=["GET"])
+def history_redirect() -> object:
+    return redirect(url_for("history_index"))
 
 
 @app.route("/history/<string:log_date>", methods=["GET"])

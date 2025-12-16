@@ -16,8 +16,8 @@ function addBlock(action, timestamp) {
     const block = document.createElement("div");
     block.classList.add("block");
 
-    if (action === "Paff") block.classList.add("paff");
-    else block.classList.add("pass");
+    var className = action.toLowerCase()
+    block.classList.add(className);    
 
     // Add both action and timestamp to dataset
     block.dataset.action = `${action} (${timestamp})`;
