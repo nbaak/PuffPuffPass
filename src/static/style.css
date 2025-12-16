@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    background-color: #111;
+    overflow: hidden;
+}
+
+#container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.block {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: -50px;
+    animation: slide-in 0.5s ease-out forwards;
+}
+
+.block.paff {
+    background-color: #2ecc71;
+}
+
+.block.pass {
+    background-color: #e74c3c;
+}
+
+@keyframes slide-in {
+    from {
+        left: -50px;
+    }
+    to {
+        left: 20px;
+    }
+}
