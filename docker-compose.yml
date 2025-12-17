@@ -8,5 +8,3 @@ services:
     container_name: flask-tower
     ports:
       - "5000:5000"
-    volumes:
-      - ./src:/app
